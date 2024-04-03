@@ -37,10 +37,15 @@ const Users = () => {
         const fetchUser = async () => {
             try {
                 const response = await getAllUsers();
-                setUsers(response.data)
+                if (response.data !== "Not found") {
+                    setUsers(response.data)
+                }
                 setIsLoading(false)
             } catch (error) {
                 console.log(error);
+            }
+            finally {
+                setIsLoading(false); // Set loading to false regardless of success or failure
             }
         }
         fetchUser();
@@ -72,7 +77,7 @@ const Users = () => {
 
                     {/* Check if users has element or not? */}
                     {
-                        (users.length === 0 && !isLoading) ? (<p style={{color: "red", marginLeft: "1rem", fontWeight: "bold"}}>No data to show...</p>) : (
+                        (users.length === 0 && !isLoading) ? (<p style={{ color: "red", marginLeft: "1rem", fontWeight: "bold" }}>No data to show...</p>) : (
                             <div className="users_container">
                                 {isLoading ? (<div className='content'>
                                     <Loader />
